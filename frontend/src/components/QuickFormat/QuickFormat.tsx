@@ -100,7 +100,7 @@ const QuickFormat = () => {
     return <>
         <div className="flex flex-col justify-center m-3">
             <Toaster />
-            <h1 className="text-4xl font-bold">Quick Format</h1>
+            <h1 className="text-3xl font-bold">Quick Format</h1>
             <ElementBar selectedFormat={selectedFormat} onSelect={setSelectedFormat} onToggle={toggleInput} />
             <NoteTip>
                 <ul>
@@ -113,8 +113,8 @@ const QuickFormat = () => {
                 Insert {selectedFormat.name}
             </h1>
             {renderInput()}
-            <div className="flex gap-5">
-                <button className="btn" onClick={handleSaveParagraph}>
+            <div className="flex gap-5 my-3">
+                <button className="btn w-full" onClick={handleSaveParagraph}>
                     Add block
                 </button>
             </div>

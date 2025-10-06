@@ -40,7 +40,7 @@ const useNotes = ({ setNotes, notes, note, editNote, setNote, initialNote, setIs
     }
     
     const { error: apiError, message, data: notes } = await Note_Service.getUserNotes()
-    console.log(notes)
+    //console.log(notes)
     if (apiError) {
       setError(message)
     }
@@ -158,7 +158,7 @@ const useNotes = ({ setNotes, notes, note, editNote, setNote, initialNote, setIs
 
     const { error: apiError, message, data: response } = await Note_Service.deleteNote(id)
 
-    console.log(response)
+    //console.log(response)
 
     if (apiError) {
       setError(message)

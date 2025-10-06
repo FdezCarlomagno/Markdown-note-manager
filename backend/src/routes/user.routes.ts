@@ -1,6 +1,6 @@
 import express from 'express'
 import { User_Controller } from '../controllers/user.controller'
-import { verifyToken, verifyCookie, checkIsVerified } from '../middlewares/auth.middlewares'
+import { verifyCookie, checkIsVerified } from '../middlewares/auth.middlewares'
 import { resendVerificationLimiter, createAccountLimiter, loginLimiter } from '../utils/rateLimiter'
 const router = express.Router()
 

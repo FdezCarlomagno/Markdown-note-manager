@@ -67,32 +67,32 @@ const useDownload = ({ note, theme = 'dark' }: UseDownloadProps) => {
     };
     */
 
-        /**
-     * Valida si la nota es válida para ser descargada.
-     */
-        const isValidNote = (): boolean => {
-            if (note.title.trim() === '') {
-                toast.error('Cannot download without a title', {
-                    style: {
-                        backgroundColor: '#374151',
-                        color: 'white'
-                    }
-                });
-                return false;
-            }
-    
-            if (note.content.trim() === '') {
-                toast.error('Cannot download without content', {
-                    style: {
-                        backgroundColor: '#374151',
-                        color: 'white'
-                    }
-                });
-                return false;
-            }
-    
-            return true;
-        };
+    /**
+ * Valida si la nota es válida para ser descargada.
+ */
+    const isValidNote = (): boolean => {
+        if (note.title.trim() === '') {
+            toast.error('Cannot download without a title', {
+                style: {
+                    backgroundColor: '#374151',
+                    color: 'white'
+                }
+            });
+            return false;
+        }
+
+        if (note.content.trim() === '') {
+            toast.error('Cannot download without content', {
+                style: {
+                    backgroundColor: '#374151',
+                    color: 'white'
+                }
+            });
+            return false;
+        }
+
+        return true;
+    };
 
 
     //Ahora maneja dark y light theme
@@ -102,7 +102,7 @@ const useDownload = ({ note, theme = 'dark' }: UseDownloadProps) => {
     ): Promise<{ cleanTitle?: string; htmlContent?: string }> => {
         let cleanTitle;
         let htmlContent;
-    
+
         if (title) {
             cleanTitle = `${title
                 .toLowerCase()
@@ -110,13 +110,13 @@ const useDownload = ({ note, theme = 'dark' }: UseDownloadProps) => {
                 .replace(/-+/g, '-')
                 .replace(/^-|-$/g, '')}`;
         }
-    
+
         if (content) {
             // Seleccionamos la hoja de estilos según el tema
-            const stylesheet = theme === 'light' 
+            const stylesheet = theme === 'light'
                 ? 'https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css'
                 : 'https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-dark.min.css';
-    
+
             htmlContent = `
                 <!DOCTYPE html>
                 <html>
@@ -142,30 +142,31 @@ const useDownload = ({ note, theme = 'dark' }: UseDownloadProps) => {
                 </html>
             `;
         }
-    
+
         return { cleanTitle, htmlContent };
     };
+
+    const downloadProcess = async () => {
+        const { cleanTitle, htmlContent } = await getDownloadContent(note.content, note.title);
+        const filename = `${cleanTitle || 'nota-sin-titulo'}.pdf`;
+
+        if (!htmlContent) {
+            throw new Error("No HTML content generated");
+        }
+
+        await PDF_Service.createPDF(htmlContent, filename);
+    };
+
 
     /**
      * Descarga la nota como un archivo PDF.
      */
     const handleDownloadPDF = async () => {
         if (!isValidNote()) return;
-    
-        const downloadProcess = async () => {
-            const { cleanTitle, htmlContent } = await getDownloadContent(note.content, note.title);
-            const filename = `${cleanTitle || 'nota-sin-titulo'}.pdf`;
-    
-            if (!htmlContent) {
-                throw new Error("No HTML content generated");
-            }
-    
-            await PDF_Service.createPDF(htmlContent, filename);
-        };
-    
+
         try {
             setLoading(LoadingStates.LOADING);
-            
+
             await toast.promise(
                 downloadProcess(),
                 {
@@ -179,7 +180,7 @@ const useDownload = ({ note, theme = 'dark' }: UseDownloadProps) => {
                         color: 'white'
                     }
                 });
-    
+
             setLoading(LoadingStates.SUCCESS);
         } catch (error) {
             setLoading(LoadingStates.NOT_LOADING);
@@ -205,7 +206,7 @@ const useDownload = ({ note, theme = 'dark' }: UseDownloadProps) => {
             downloadFile(content, filename);
         };
 
-      
+
 
         try {
             setLoading(LoadingStates.LOADING);

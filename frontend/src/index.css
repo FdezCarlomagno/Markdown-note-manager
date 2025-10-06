@@ -43,13 +43,13 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
   border-color: #646cff;
 }
+
 button:disabled {
   cursor: not-allowed;
   border-color: transparent;
@@ -70,10 +70,34 @@ button:disabled {
 }
 
 .btn {
-  @apply w-full p-2 my-3 md:my-5 text-center
+  @apply bg-[#1a1a1a] p-2 md:text-center
          text-white rounded-md transition 
          duration-300 ease-in-out disabled:text-gray-500 disabled:shadow-none
          disabled:cursor-not-allowed;
+}
+
+/* Estilo primario */
+.btn-primary {
+  background: linear-gradient(90deg, #6366f1, #a78bfa, #ec4899); /* from-indigo-500 via-purple-400 to-pink-500 */
+  border: none;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(90deg, #4f46e5, #8b5cf6, #db2777); /* tonos más intensos en hover */
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2);
+}
+
+.btn-primary:disabled {
+  background: #e5e7eb; /* gris claro */
+  color: #9ca3af;      /* gris texto */
+  box-shadow: none;
 }
 
 

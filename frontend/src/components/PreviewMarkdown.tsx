@@ -32,7 +32,6 @@ const GitHubMarkdownDark: React.FC<GitHubMarkdownDarkProps> = React.memo(({
     }
   }
 
-
   const onSave = useCallback(async () => {
     const updatedMarkdown = orderedContent.map((item) => item.content).join("\n---\n");
     setEditMode(false);
@@ -83,7 +82,7 @@ const GitHubMarkdownDark: React.FC<GitHubMarkdownDarkProps> = React.memo(({
   return (
     <div className="flex flex-col min-h-screen">
       <button
-        className="p-2 m-4 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+        className="btn"
         onClick={handleEditContent}
       >
         {editMode ? "Stop editing" : "Edit content"}
@@ -97,3 +96,4 @@ const GitHubMarkdownDark: React.FC<GitHubMarkdownDarkProps> = React.memo(({
 });
 
 export default GitHubMarkdownDark;
+

@@ -7,7 +7,7 @@ interface LabelProps {
 
 const Label = ({ labelName = 'text', children } : LabelProps ) => {
     return (
-        <label htmlFor={labelName} className="flex flex-col gap-2 text-gray-100">
+        <label htmlFor={labelName} className="flex flex-col text-gray-100">
             { children } 
         </label>
     )

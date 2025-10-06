@@ -12,7 +12,6 @@ import { appLimiter } from "./utils/rateLimiter";
 dotenv.config()
 
 const PORT = process.env.PORT || 3001
-const FRONTEND_URL = process.env.CLIENT_URL
 
 const app = express()
 
@@ -26,10 +25,12 @@ app.use(cookieParser())
 
 //http://localhost:5173
 
-const ALLOWED_ORIGINS = [
-    FRONTEND_URL,
-    'https://t7kvkw28-5173.brs.devtunnels.ms',
-]
+const isProduction = process.env.NODE_ENV == 'production';
+
+const ALLOWED_ORIGINS: string[] = Object.keys(process.env)
+  .filter(key => key.split('_')[1] === 'URL')
+  .map(key => process.env[key] as string);
+
 
 app.use(cors({
     origin: (origin, callback) => {
@@ -41,7 +42,6 @@ app.use(cors({
     }, // Explicitly allow your frontend URL
     credentials: true
 }));
-
 
 app.use('/api', note_routes)
 app.use('/api', user_routes)

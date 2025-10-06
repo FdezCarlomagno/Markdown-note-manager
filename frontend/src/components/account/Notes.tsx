@@ -19,7 +19,7 @@ const Notes = ({ notes, setNote }: NotesProps) => {
                 {notes && notes.length > 0 ? <>
                     {notes.map((note: Note) => (
 
-                        <div key={note.id} className="p-3 border border-gray-700 rounded-lg shadow-lg bg-gray-900 mt-3"
+                        <div key={note.id} className="p-3 border border-gray-700 rounded-lg shadow-lg bg-gray-900 mt-3 transition-all 300ms hover:border-gray-400 hover:scale-[1.01]"
                             onClick={(e) => {
                                 e.stopPropagation()
                                 setNote(note)

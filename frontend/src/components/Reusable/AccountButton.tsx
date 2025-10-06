@@ -7,7 +7,7 @@ interface AccountButtonProps {
 const AccountButton = ({ url }: AccountButtonProps) => {
     const nav = useNavigate()
 
-    return <button className="w-full flex items-center gap-3 px-3 md:px-4 py-2 md:py-3 text-gray-300 hover:bg-gray-700/50 rounded-xl transition-all duration-200 hover:translate-x-2"
+    return <button className="btn w-full flex items-center gap-3 px-3 md:px-4 py-2 md:py-3 text-gray-300 hover:bg-gray-700/50 rounded-xl transition-all duration-200 hover:translate-x-2"
         onClick={() => {
             nav(`/${url}`)
         }}

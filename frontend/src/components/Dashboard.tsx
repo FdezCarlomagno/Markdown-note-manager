@@ -22,7 +22,8 @@ function Dashboard({ onEdit, setEditNote }: DashboardProps) {
     initialNote,
     setOrderedContent,
     setFilteredNotes,
-    filteredNotes
+    filteredNotes,
+    note : selectedNote
   } = useAppContext()
 
   const nav = useNavigate()
@@ -43,7 +44,6 @@ function Dashboard({ onEdit, setEditNote }: DashboardProps) {
   return (
     <aside className="w-full md:w-48 lg:w-72 lg:h-full bg-gray-800 h-full p-4 md:p-6 border-r border-gray-700 shadow-2xl space-y-6 md:space-y-8 overflow-y-auto">
       <div className="flex items-center gap-3">
-        <div className="w-8 h-8 bg-blue-500 rounded-lg"></div>
         <h2 className="text-xl md:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
           MD Dashboard
         </h2>
@@ -57,7 +57,7 @@ function Dashboard({ onEdit, setEditNote }: DashboardProps) {
             setOrderedContent([])
             nav('/')
           }}
-          className="w-full flex items-center gap-3 px-3 md:px-4 py-2 md:py-3 text-gray-300 hover:bg-gray-700/50 rounded-xl transition-all duration-200 hover:translate-x-2"
+          className="btn w-full flex items-center gap-3 px-3 md:px-4 py-2 md:py-3 text-gray-300 hover:bg-gray-700/50 rounded-xl transition-all duration-200 hover:translate-x-2"
         >
           <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -69,7 +69,7 @@ function Dashboard({ onEdit, setEditNote }: DashboardProps) {
           onClick={() => {
             setShowNotes((prev) => !prev)
           }}
-          className="w-full flex items-center gap-3 px-3 md:px-4 py-2 md:py-3 text-gray-300 hover:bg-gray-700/50 rounded-xl transition-all duration-200 hover:translate-x-2"
+          className="btn w-full flex items-center gap-3 px-3 md:px-4 py-2 md:py-3 text-gray-300 hover:bg-gray-700/50 rounded-xl transition-all duration-200 hover:translate-x-2"
         >
           <svg className="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
@@ -90,7 +90,7 @@ function Dashboard({ onEdit, setEditNote }: DashboardProps) {
               filteredNotes.map((note) => (
                 <li
                   key={note.id}
-                  className="bg-gray-900 flex justify-between items-center gap-2 md:gap-3 border border-gray-900 shadow-md rounded-md p-2 hover:cursor-pointer hover:scale-[1.02] transition duration-300 hover:border-gray-300"
+                  className= {`${note.id == selectedNote.id ?'bg-gray-700 border-0' : 'bg-gray-900'}  flex justify-between items-center gap-2 md:gap-3 border border-gray-900 shadow-md rounded-md p-2 hover:cursor-pointer hover:scale-[1.02] transition duration-300 hover:border-gray-500 `}
                   onClick={() => {
                     nav('/')
                     onEdit()
@@ -110,7 +110,7 @@ function Dashboard({ onEdit, setEditNote }: DashboardProps) {
           onClick={() => {
             nav('/quick-format')
           }}
-          className="w-full flex items-center gap-3 px-3 md:px-4 py-2 md:py-3 text-gray-300 hover:bg-gray-700/50 rounded-xl transition-all duration-200 hover:translate-x-2"
+          className="btn w-full flex items-center gap-3 px-3 md:px-4 py-2 md:py-3 text-gray-300 hover:bg-gray-700/50 rounded-xl transition-all duration-200 hover:translate-x-2"
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -133,7 +133,7 @@ function Dashboard({ onEdit, setEditNote }: DashboardProps) {
           onClick={() => {
             nav('/guide')
           }}
-          className="w-full flex items-center gap-3 px-3 md:px-4 py-2 md:py-3 text-gray-300 hover:bg-gray-700/50 rounded-xl transition-all duration-200 hover:translate-x-2"
+          className="btn w-full flex items-center gap-3 px-3 md:px-4 py-2 md:py-3 text-gray-300 hover:bg-gray-700/50 rounded-xl transition-all duration-200 hover:translate-x-2"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

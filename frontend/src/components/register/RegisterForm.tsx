@@ -135,6 +135,7 @@ const RegisterForm = () => {
               onChange={handleChange}
             />
           </Label>
+          <div className="border border-gray-600 my-3 "></div>
           <Label labelName="firstPassword">
             Password
             <Input 
@@ -173,7 +174,7 @@ const RegisterForm = () => {
           <button
             disabled={sendEmail === EmailStates.SUBMITTING}
             type="submit"
-            className="w-full bg-gray-800 text-gray-100 p-2 rounded-md mt-3 hover:bg-gray-700 transition"
+            className="btn w-full bg-gray-800 text-gray-100 p-2 rounded-md mt-3 hover:bg-gray-700 transition"
           >
             {sendEmail === EmailStates.SUBMITTING  ? 'Sending verification email...' : 'Register'}
           </button>

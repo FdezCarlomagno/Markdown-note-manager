@@ -13,12 +13,50 @@ import { Email_Service } from "../services/emailService";
 import dotenv from 'dotenv'
 dotenv.config()
 
+/**
+ * The class responsible for managing user accounts.
+ * 
+ * <p>
+ *  The functions of the {@link User_Controller} are the following:
+ *      <li>Set the httpOnly Cookie for user Authentication (login)</li>
+ *      <li>Destroy the user´s httpOnly Cokkie for log out</li>
+ *      <li>Handle user authentication</li>
+ *      <li>Create user account</li>
+ *      <li>Verify token and verification code</li>
+ *      <li>Verifies user account</li>
+ *      <li>CRUD operations on a user</li>
+ * </p>
+ * 
+ * @author Valentin F. Carlomagno
+ * @version 1.0
+ */
+
 
 export class User_Controller {
+    /** Private Json Web Token secret that comes from an .env variable */
     private static readonly secret: string = process.env.JWT_SECRET as string
 
-
-
+    /**
+   * Generates a JWT for user authentication and sets it as an HttpOnly cookie.
+   *
+   * @remarks
+   * - Requires Basic Authentication header with base64-encoded `email:password`.
+   * - Validates credentials against the database.
+   * - Returns a JWT with a 7-day expiration, stored in a secure cookie.
+   * - Uses error middleware (`Note_Error`) for standardized error handling.
+   *
+   * @param req Express request containing the `Authorization` header.
+   * @param res Express response where the JWT cookie is set.
+   * @param next Express error-handling middleware.
+   * 
+   * @returns A promise resolving to an Express `Response` with the token, or calls `next` with an error.
+   * 
+   * @throws {Note_Error} If:
+   * - Authorization header is missing or invalid.
+   * - Email format is invalid.
+   * - User not found or password mismatch.
+   * - JWT secret is missing.
+   */
     public static async getToken(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
         const headers = req.headers.authorization
 
@@ -83,10 +121,25 @@ export class User_Controller {
 
             return res.status(201).json(createResponse(false, 'Token succesfully created', token))
         } catch (err: any) {
+            console.log(err)
             return next(err)
         }
     }
 
+    /**
+     * Clears the HttpOnly Cookie for logout.
+     * 
+     * @remarks
+     * - Assumes that the user is already logged in.
+     * - Uses error middleware (`Note_Error`) for standardized error handling.
+     * 
+     * @param req Express request containing the Authorized user
+     * @param res Express response that clears the cookie
+     * @param next Express error-handling middleware.
+     * @returns A promise resolving to an express ´Response´ with a success message or calls ´next´ with an error
+     * 
+     * @throws {@link Note_Error} if the user is not logged in.
+     */
     public static async logout(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
         if (!(req as any).user) {
             return next(new Note_Error(createResponse(true, 'User not logged in', []), 401))
@@ -101,6 +154,15 @@ export class User_Controller {
         return res.json(createResponse(false, 'Logout succesful', []))
     }
 
+    /**
+     * Returns if the user is authenticated or not.
+     * Used to quickly check the authentication of the user.
+     * 
+     * @param req Express request containing the Authorized (or not) user
+     * @param res Express response
+     * @param next Express error-handling middleware.
+     * @returns A promise resolving to an express ´Response´ with an object {@link authenticated: false} if the user is not authenticated or {@link authenticated: true} if the user is authenticated, or calls ´next´ with an error.
+     */
     public static async isAuthenticated(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
         const token = req.cookies.jwt
 
@@ -153,9 +215,9 @@ export class User_Controller {
 
             await Email_Service.sendVerificationCode(email, verificationCode)
 
-            return res.json(createResponse(false, 'Account succesfully created. Check email for verification code', { 
+            return res.json(createResponse(false, 'Account succesfully created. Check email for verification code', {
                 needsVerification: true
-             }))
+            }))
         } catch (err: any) {
             console.error(err)
             return next(err)
@@ -185,23 +247,22 @@ export class User_Controller {
         }
     }
 
-
-    public static async resendEmailVerification(req: Request, res: Response, next: NextFunction){
+    public static async resendEmailVerification(req: Request, res: Response, next: NextFunction) {
         const { email } = req.body
 
         try {
-            if(!email || !checkEmailFormat(email)){
+            if (!email || !checkEmailFormat(email)) {
                 throw new Note_Error(createResponse(true, 'Invalid email format', []), 400)
             }
 
             const user = await User_model.getUserByEmail(email)
 
-            if(!user){
+            if (!user) {
                 throw new Note_Error(createResponse(true, 'User not found', []), 404)
             }
 
             //If its already verified return
-            if(user.isVerified){
+            if (user.isVerified) {
                 return res.json(createResponse(false, 'User already verified', []))
             }
 
@@ -216,16 +277,13 @@ export class User_Controller {
             //Resend the email
 
             await Email_Service.sendVerificationCode(user.email, newVerificationCode)
-            
-            return res.json(createResponse(false, 'Verification email sent',[]))
-        } catch (err : any){
+
+            return res.json(createResponse(false, 'Verification email sent', []))
+        } catch (err: any) {
             console.log(err)
             return next(err)
-        } 
+        }
     }
-
-
-
 
     public static async getUserByEmail(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
         const { email } = req.body;
@@ -246,9 +304,6 @@ export class User_Controller {
         }
     }
 
-
-
-
     public static async getProfile(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
         const userFromToken: UserToken = (req as any).user;
 
@@ -268,9 +323,6 @@ export class User_Controller {
 
 
     }
-
-
-
 
     public static async deleteProfile(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
         const reqUser = (req as any).user
@@ -324,7 +376,6 @@ export class User_Controller {
         }
     }
 
-
     public static async changeUsername(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
         const { newUsername } = req.body
         const reqUser = (req as any).user as UserToken
@@ -354,12 +405,10 @@ export class User_Controller {
         }
     }
 
-
-
     public static async changePassword(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
-        const { originalPassword : oldPassword } = req.body
+        const { originalPassword: oldPassword } = req.body
         //this is the new password
-        const { newPassword } = req.body 
+        const { newPassword } = req.body
         const reqUser: UserToken = (req as any).user
         const reqUserId = Number(reqUser.sub)
 
@@ -383,7 +432,7 @@ export class User_Controller {
                 throw new Note_Error(createResponse(true, 'Invalid credentials', []), 400)
             }
 
-            if(!validatePassword(newPassword)){
+            if (!validatePassword(newPassword)) {
                 throw new Note_Error(createResponse(true, 'The password must have 8+ chars, uppercase letters (A-Z), lowercase letters (a-z), digits (0-9)', []), 400)
             }
 

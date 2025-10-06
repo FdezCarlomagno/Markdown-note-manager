@@ -9,6 +9,7 @@ export class User_model {
     public static async getUserByEmail(email: User['email']): Promise<User | null> {
         const query = 'SELECT * FROM user WHERE email = ?'
         const [rows] = await pool.query(query, [email])
+        console.log(rows)
         const users = rows as User[]
 
         return users.length > 0 ? users[0] : null

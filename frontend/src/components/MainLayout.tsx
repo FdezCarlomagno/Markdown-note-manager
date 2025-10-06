@@ -3,12 +3,12 @@ import SideBar from "./SideBar"
 import Footer from "./Footer"
 import { Header } from "./Reusable/Header"
 import Preview from "./markdown/Preview"
-import { useUserContext } from "../hooks/useUserContext"
+//import { useUserContext } from "../hooks/useUserContext"
 import { useAppContext } from "../hooks/useAppContext"
 import Download from "./Download"
 
 const MainLayout = () => {
-    const { isLoggedIn } = useUserContext()
+    //const { isLoggedIn } = useUserContext()
     const { note } = useAppContext()
     const { pathname } = useLocation()
     const showPreview = pathname !== '/account'

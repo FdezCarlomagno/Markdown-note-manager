@@ -11,7 +11,7 @@ const Error = ({ children, dismissButton = true }: ErrorProps) => {
 
     return (
         <>
-            <div className="bg-red-600 text-white p-2 text-left rounded-md mt-3 justify-between shadow-lg flex flex-col md:flex-row gap-3">
+            <div className="bg-red-600 text-white p-2 text-left rounded-md mt-3 justify-between items-center shadow-lg flex flex-col md:flex-row gap-3">
                 {children}
                 {dismissButton &&
                     <button

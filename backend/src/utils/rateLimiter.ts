@@ -1,5 +1,9 @@
 import { rateLimit } from 'express-rate-limit'
 
+//TO DO: pdf creation limiter
+
+
+
 const resendVerificationLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 3, // Limit to 3 requests per windowMs
@@ -25,9 +29,16 @@ const appLimiter = rateLimit({
     message: 'To many requests. Try again later'
 })
 
+const pdfCreationLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 5,
+    message: 'To many requests for pdf creation. Try again later'
+})
+
 export {
     resendVerificationLimiter,
     appLimiter,
     loginLimiter,
-    createAccountLimiter
+    createAccountLimiter,
+    pdfCreationLimiter
 }

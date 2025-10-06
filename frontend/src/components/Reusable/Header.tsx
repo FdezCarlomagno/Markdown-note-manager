@@ -12,16 +12,16 @@ export function Header(){
                 </h1>
                 <div className="flex flex-col md:flex-row justify-between">
                 {!isLoggedIn ? (
-                    <div className="flex items-center">
+                    <div className="flex items-center gap-3">
                         <Link to={'/login'}>
-                            <button className="m-2 px-4 py-2">Log in</button>
+                            <button className="btn">Log in</button>
                         </Link>
                         <Link to={'/register'}>
-                            <button className="m-2 px-4 py-2">Register</button>
+                            <button className="btn">Register</button>
                         </Link>
                     </div>
                 ) : (
-                    <button className="m-2 px-4 py-2 w-[40%] md:w-auto" onClick={logout}>Log out</button>
+                    <button className="m-2 px-4 py-2 btn w-[100px]" onClick={logout}>Log out</button>
                 )}
                 </div>
             </div>

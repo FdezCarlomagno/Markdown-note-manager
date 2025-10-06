@@ -7,7 +7,8 @@ import { validatePassword } from '../../../backend/src/utils/validatePassword'
 
 export class User_Service {
 
-    public static readonly BASE_URL: string = 'http://localhost:3000/api'
+    //no need for this because of axiosService class
+    //public static readonly BASE_URL: string = 'http://localhost:3000/api'
 
     public static async isAuthenticated(): Promise<ApiResponse<{ authenticated: boolean }>> {
         try {

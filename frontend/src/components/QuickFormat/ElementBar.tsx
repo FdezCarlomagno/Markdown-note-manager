@@ -14,7 +14,7 @@ const formatKeyToLabel = (key: string) => {
         .replace(/Base$/, '') // Eliminar 'Base' del final
         .replace(/([a-z])([A-Z])/g, '$1 $2') // Separar camelCase
         .replace(/(\d)/, ' $1') // Separar números para los encabezados
-    
+
     return formatted.charAt(0).toUpperCase() + formatted.slice(1)
 }
 
@@ -30,7 +30,7 @@ export const ElementBar = ({ selectedFormat, onSelect, onToggle }: Props) => {
     ]
 
     return (
-        <div className="flex flex-wrap gap-2 m-3"> 
+        <div className="flex flex-wrap gap-2 m-3">
             {Object.entries(MdBases)
                 .filter(([key]) => !excludedKeys.includes(key))
                 .map(([key, value]) => (
@@ -44,11 +44,10 @@ export const ElementBar = ({ selectedFormat, onSelect, onToggle }: Props) => {
                             })
                             onToggle()
                         }}
-                        className={`px-4 py-2 rounded text-sm font-medium transition-colors
-                            ${
-                                selectedFormat.base === value 
-                                ? 'bg-blue-500 text-white hover:bg-blue-600' 
-                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        className={`px-4 py-2 rounded-md font-medium text-sm transition-all duration-200
+                        ${selectedFormat.base === value
+                                ? 'bg-gray-900 text-white border-gray-700 shadow-md hover:bg-gray-800' // Seleccionado
+                                : 'bg-gray-700 text-gray-500 border-gray-300 hover:bg-gray-200'       // No seleccionado
                             }`}
                         title={`Insertar ${formatKeyToLabel(key)}`}
                     >
@@ -57,9 +56,9 @@ export const ElementBar = ({ selectedFormat, onSelect, onToggle }: Props) => {
                         {key === 'boldBase' && <span>B</span>}
                         {key === 'italicBase' && <em>I</em>}
                         {key === 'codeBlockBase' && <code>{"</>"}</code>}
-                        {!key.startsWith('h') && 
-                         !['boldBase', 'italicBase', 'codeBlockBase'].includes(key) && 
-                         formatKeyToLabel(key)}
+                        {!key.startsWith('h') &&
+                            !['boldBase', 'italicBase', 'codeBlockBase'].includes(key) &&
+                            formatKeyToLabel(key)}
                     </button>
                 ))}
         </div>

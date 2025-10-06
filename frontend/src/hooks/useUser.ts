@@ -194,14 +194,21 @@ const useUser = ({ setError, setUser, setIsEdited, setIsLoggedIn }: UseUserProps
     };
 
     const handleDeleteAccount = async (passwordAccount: string)  => {
-        logout()
+       
 
         const { error: apiError, message } = await User_Service.deleteAccount(passwordAccount)
+        
         if (apiError) {
             console.error(message)
             setError(message)
             return
         }
+
+        setIsEdited(false)
+        setIsLoggedIn(false)
+        setUser(null)
+        sessionStorage.removeItem('user')
+        localStorage.removeItem('notes')
 
         toast.success('Account succesfully deleted', {
             style: {

@@ -23,7 +23,7 @@ function Home() {
     return (
         <div className="flex flex-col md:flex-row">
             <Toaster />
-            <main className="flex-1 p-4 md:p-8 w-full overflow-x-auto">
+            <main className="flex-1 md:w-full overflow-x-auto">
                 <div className="flex flex-col w-full">
                     <div className="bg-gray-800/50 rounded-xl p-4 md:p-6 border border-gray-700/50 shadow-xl mb-4 md:mb-8">
                         <MarkdownEditor />
